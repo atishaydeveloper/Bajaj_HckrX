@@ -3,7 +3,7 @@ services:
     name: hackrx-fastapi
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: apt-get update && apt-get install -y build-essential libglib2.0-0 && pip install -r requirements.txt
     startCommand: uvicorn main_app:app --host 0.0.0.0 --port 10000
     envVars:
       - key: GOOGLE_API_KEY
