@@ -3,12 +3,24 @@ services:
     name: hackrx-fastapi
     env: python
     plan: free
-    buildCommand: apt-get update && apt-get install -y build-essential libglib2.0-0 && pip install -r requirements.txt
+
+    buildCommand: |
+      echo "Python version: $(python --version)"
+      apt-get update && apt-get install -y build-essential libglib2.0-0
+      pip install --upgrade pip setuptools wheel
+      pip install -r requirements.txt
+
     startCommand: uvicorn main_app:app --host 0.0.0.0 --port 10000
+
     envVars:
       - key: GOOGLE_API_KEY
         sync: false
       - key: API_KEY
         sync: false
+
     autoDeploy: true
     healthCheckPath: /docs
+
+    build:
+      environment:
+        pythonVersion: 3.10.13  
